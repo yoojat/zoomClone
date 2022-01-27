@@ -8,6 +8,19 @@ room.hidden = true;
 
 let roomName;
 
+function handleChangeNicknameSubmit(event) {
+  event.preventDefault();
+  const nickNameInput = room.querySelector('#changenickname input');
+  socket.emit('nickname', nickNameInput.value);
+  nickNameInput.value = '';
+}
+
+function handleLeaveSubmit(event) {
+  event.preventDefault();
+  socket.emit('leave', roomName, hiddenRoom);
+  roomName = '';
+}
+
 function addMessage(message) {
   const ul = room.querySelector('ul');
   const li = document.createElement('li');
@@ -32,6 +45,16 @@ function showRoom() {
   h3.innerText = `Room ${roomName}`;
   const msgForm = room.querySelector('#msg');
   msgForm.addEventListener('submit', handleMessageSubmit);
+  room.querySelector('#leave').addEventListener('click', handleLeaveSubmit);
+}
+
+function hiddenRoom() {
+  welcome.hidden = false;
+  room.hidden = true;
+  const h3 = room.querySelector('h3');
+  h3.innerText = '';
+  const msgForm = room.querySelector('#msg');
+  msgForm.removeEventListener('submit', handleMessageSubmit);
 }
 
 function handleRoomSubmit(event) {
@@ -54,13 +77,32 @@ function handleRoomSubmit(event) {
 }
 
 form.addEventListener('submit', handleRoomSubmit);
+room
+  .querySelector('#changenickname')
+  .addEventListener('submit', handleChangeNicknameSubmit);
 
-socket.on('welcome', (user) => {
+socket.on('welcome', (user, newCount) => {
+  console.log({ user, newCount });
+
+  const h3 = room.querySelector('h3');
+  h3.innerText = `Room ${roomName} (${newCount})`;
   addMessage(`${user} arrived!`);
 });
 
-socket.on('bye', (user) => {
+socket.on('bye', (user, newCount) => {
+  const h3 = room.querySelector('h3');
+  h3.innerText = `Room ${roomName} (${newCount})`;
   addMessage(`${user} left ㅠㅠ`);
 });
 
 socket.on('new_message', addMessage);
+
+socket.on('room_change', (rooms) => {
+  const roomList = welcome.querySelector('ul');
+  roomList.innerHTML = '';
+  rooms.forEach((room) => {
+    const li = document.createElement('li');
+    li.innerText = room;
+    roomList.append(li);
+  });
+});
