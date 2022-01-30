@@ -5,21 +5,31 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Noom
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="/public/css/reset.css")
+        link(rel="stylesheet", href="/public/css/style.css")
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     body
-        header
-            h1 Noom
+        header#header
+            div#h1container
+                h1 Noom
         main
-            div#welcome
-                form
-                    input(placeholder="room name", required, type="text")
-                    button Enter room
-            div#call 
-                div#myStream 
-                    video#myFace(autoplay, muted, playsinline, width="400", height="400")
-                    button#mute Mute
-                    button#camera Turn Camera Off
-                    select#cameras
-                    video#peerFace(autoplay, playsinline, width="400", height="400")
+            div#wrapper
+                div#welcome
+                    div#roomEntertitle Enter Room Name
+                    form#roomEnterForm
+                        input#roomEnterInput(placeholder="room name", required, type="text")
+                        button#roomEnterSubmit Enter room
+                div#call 
+                    div#myStream 
+                        video#myFace(autoplay, muted, playsinline, width="100%")
+                        video#peerFace(autoplay, playsinline, width="400", height="400")
+                        div#buttonContainer
+                            button#mute
+                                div#muteBtnImg
+                            button#camera
+                                div#cameraBtnImg
+                        select#cameras
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js")  

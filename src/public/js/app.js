@@ -13,6 +13,7 @@ let muted = false;
 let cameraOff = false;
 let roomName;
 let myPeerConnection;
+let myDataChannel;
 
 async function getCameras() {
   try {
@@ -70,10 +71,15 @@ function handleMuteClick() {
     .getAudioTracks()
     .forEach((track) => (track.enabled = !track.enabled));
   if (!muted) {
-    muteBtn.innerText = 'Unmute';
+    // muteBtn.innerText = 'Unmute';
+    // console.log(muteBtn.querySelector('.buttonImg').style.backgroundImage);
+    document.getElementById('muteBtnImg').style.backgroundImage =
+      "url('/public/img/unmute.png')";
     muted = true;
   } else {
-    muteBtn.innerText = 'Mute';
+    // muteBtn.innerText = 'Mute';
+    document.getElementById('muteBtnImg').style.backgroundImage =
+      "url('/public/img/mute.png')";
     muted = false;
   }
 }
@@ -83,10 +89,10 @@ function handleCameraClick() {
     .getVideoTracks()
     .forEach((track) => (track.enabled = !track.enabled));
   if (cameraOff) {
-    cameraBtn.innerText = 'Turn Camera Off';
+    // cameraBtn.innerText = 'Turn Camera Off';s
     cameraOff = false;
   } else {
-    cameraBtn.innerText = 'Turn Camera On';
+    // cameraBtn.innerText = 'Turn Camera On';
     cameraOff = true;
   }
 }
@@ -132,14 +138,26 @@ welcomeForm.addEventListener('submit', handleWelcomeSubmit);
 // Socket Code
 
 socket.on('welcome', async () => {
+  myDataChannel = myPeerConnection.createDataChannel('chat');
+  myDataChannel.addEventListener('message', (event) => console.log(event.data));
+  console.log('made data channel');
   // 기존에 방에 들어 와있던 소켓들이 받음
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer);
   console.log('sent the offer');
   socket.emit('offer', offer, roomName);
+
+  const myVideo = document.getElementById('myFace');
+  myVideo.classList.add('topFixedVideo');
 });
 
 socket.on('offer', async (offer) => {
+  myPeerConnection.addEventListener('datachannel', (event) => {
+    myDataChannel = event.channel;
+    myDataChannel.addEventListener('message', (event) =>
+      console.log(event.data)
+    );
+  });
   // 자기 자신은 받지 않는다?
   console.log('received the offer');
   myPeerConnection.setRemoteDescription(offer);

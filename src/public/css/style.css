@@ -1,0 +1,112 @@
+body {
+  background-color: #e1e1e1;
+}
+header {
+  text-align: center;
+}
+#h1container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: #1da7f4;
+  color: white;
+  border-bottom-left-radius: 45px;
+  border-bottom-right-radius: 45px;
+}
+h1 {
+  display: block;
+  font-size: 36px;
+  font-weight: 800;
+}
+main {
+  display: flex;
+  justify-content: center;
+}
+#wrapper {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  top: 160px;
+  max-width: 900px;
+  border-radius: 30px;
+  padding: 30px;
+}
+#roomEntertitle {
+  padding: 20px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+#roomEnterForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#roomEnterInput {
+  border: none;
+  border-bottom: 1px solid #1da7f4;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 19px;
+}
+
+#roomEnterSubmit {
+  border: none;
+  padding: 20px;
+  background: linear-gradient(to right, #4388f3, #6edbf3);
+  color: white;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#myFace {
+  border-radius: 20px;
+}
+
+#myStream {
+  display: flex;
+  flex-direction: column;
+}
+
+#buttonContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #e7eaef;
+  padding: 20px;
+}
+
+#mute,
+#camera {
+  margin: 10px;
+}
+
+#buttonContainer button {
+  padding: 10px;
+  background-color: white;
+  border-radius: 20px;
+}
+#buttonContainer div {
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  cursor: pointer;
+}
+
+#muteBtnImg {
+  background-image: url('/public/img/mute.png');
+}
+#cameraBtnImg {
+  background-image: url('/public/img/turnonoff.png');
+}
+
+.topFixedVideo {
+  width: 20%;
+  position: absolute;
+  right: 30px;
+}
